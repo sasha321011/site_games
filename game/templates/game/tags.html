@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ul class="tag-list">
+    {% for tags in tags %}
+    <li><a href="{{tags.get_absolute_url}}">{{tags.tag}}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="edit-comment-page">
+    <h2>Редактировать комментарий</h2>
+    <form method="post" class="edit-comment-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="submit-button">Сохранить изменения</button>
+    </form>
+</div>
+{% endblock %}

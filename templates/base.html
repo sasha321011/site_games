@@ -1,0 +1,71 @@
+{% load static %}
+{% load games_tags %}
+{% load cache %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин Игр</title>
+    <link type="text/css" href="{% static 'game/css/styles.css' %}" rel="stylesheet">
+</head>
+<body>
+{% block mainmenu %}
+<header>
+    <div class="header-content">
+        <div class="logo"><a href="{% url 'home'%}">Магазин Игр</a></div>
+    </div>
+
+    <div class="header-search">
+        <form action="{% url 'search_results' %}" method="GET" class="search-form">
+            <input type="text" name="q" placeholder="Поиск..." required>
+            <button type="submit">Найти</button>
+        </form>
+    </div>
+
+
+    <div class="header-text"><a href="{% url 'add_page' %}">Добавить игру</a></div>
+
+    <div class="header-text"><a href="{% url 'contacts' %}">Контакты</a></div>
+    {% if user.is_authenticated %}
+    <div class="header-text"><a href="{% url 'users:profile'%}">{{ user.username }}{% if user.photo %}<img
+            class="photo_index" src="{{ user.photo.url }}"> {% else %}<img class="photo_index" src="{{ default_image }}">{% endif %}</a><a
+            href="{% url 'users:logout' %}">Выйти</a></div>
+    {% else %}
+    <div class="header-text"><a href="{% url 'users:login' %}">Войти</a>|<a href="{% url 'users:register' %}">Зарегистрироваться</a>
+    </div>
+    {% endif %}
+
+
+</header>
+{% endblock %}
+
+<div class="container">
+    {% block sidebar %}
+
+    <aside class="sidebar">
+        <ul id="leftchapters">
+            {% if user.is_authenticated %}
+            <p><a href="{% url 'your_posts'%}">Ваши посты</a></p>
+            {% endif %}
+            {% cache 900 games_tags %}
+            {% if cat_selected == 0 %}
+            <li class="selected">Все теги::</li>
+            {% else %}
+            <li>Все теги:</li>
+            {% endif %}
+            {% show_tags %}
+            {% endcache %}
+        </ul>
+    </aside>
+    {% endblock%}
+
+    {% block content %}
+    {% endblock %}
+
+</div>
+{% block navigation %}
+{% endblock %}
+</body>
+</html>

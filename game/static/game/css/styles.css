@@ -1,0 +1,426 @@
+header {
+    background-color: #333;
+    color: white;
+    padding: 20px 40px; /* Уменьшили padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 30px; /* Пространство между логотипом и остальными элементами */
+}
+
+.header-text {
+    margin-left: auto; /* Толкает элементы вправо */
+    display: flex;
+    align-items: center;
+    gap: 2px; /* Пространство между ссылками */
+}
+
+.header-text a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1em;
+    padding: 10px; /* Увеличивает область клика */
+}
+
+.header-text a:hover {
+    text-decoration: underline; /* Добавляет подчеркивание при наведении */
+}
+
+.header-search {
+    flex-grow: 1; /* Заставляет элемент занимать свободное пространство */
+    display: flex;
+    justify-content: center;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    width: 60%; /* Ограничивает ширину поиска */
+}
+
+.search-form input[type="text"] {
+    flex-grow: 1; /* Растягивает поле поиска */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.search-form button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #e91e63; /* Изменяет цвет кнопки для контраста */
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.search-form button:hover {
+    background-color: #d81b60; /* Немного темнее при наведении */
+}
+
+.logo a {
+    font-size: 1.7em;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+}
+
+.photo_index {
+    max-width: 40px; /* Сохраняет фиксированный размер для изображения */
+    border-radius: 50%;
+    margin-left: 10px; /* Отступ слева от имени пользователя */
+}
+
+
+
+.container {
+    display: flex;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.sidebar {
+    width: 15%;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+}
+
+#leftchapters {
+    list-style: none;
+    padding: 0;
+}
+
+#leftchapters li {
+    margin: 10px 0;
+}
+
+#leftchapters li a {
+    color: #333;
+    text-decoration: none;
+}
+
+#leftchapters li.selected {
+    font-weight: bold;
+}
+
+#leftchapters li a:hover {
+    text-decoration: underline;
+}
+
+
+.game-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    width: 80%;
+}
+
+.game-item {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: calc(30% - 20px);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.game-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.img-game {
+    max-width: 30%;
+    border-radius: 5px;
+}
+
+.game-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.game-price {
+    color: #e91e63;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.buy-button a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.buy-button a:hover {
+    background-color: #e91e63;
+}
+
+
+.tag-list {
+    list-style-type: none; /* Убираем маркеры списка */
+    padding: 0; /* Убираем отступы */
+    margin: 0; /* Убираем отступы */
+}
+
+.tag-list li {
+    margin-bottom: 10px; /* Добавляем отступ между элементами */
+}
+
+.tag-list li a {
+    color: #333; /* Цвет текста */
+    text-decoration: none; /* Убираем подчеркивание */
+}
+
+.tag-list li a:hover {
+    text-decoration: underline; /* Подчеркивание при наведении */
+}
+
+
+
+.list-pages {
+	text-align: center;
+	margin: 0 0 20px 0;
+}
+.list-pages ul {
+	margin: 20px 0 0 0;
+	padding: 0;
+	list-style: none;
+}
+.list-pages ul li {
+	display: inline-block;
+	margin: 0 20px 0 0;
+}
+.list-pages a {
+	color: #000;
+	font-size: 24px;
+	text-decoration: none;
+}
+.list-pages .page-num, .page-num-selected {
+	display: inline-block;
+	width: 60px;
+	height: 44px;
+	padding: 16px 0 0 0;
+	border: 1px solid #d0d0d0;
+	border-radius: 30px;
+}
+.list-pages .page-num:hover {
+	box-shadow: 3px 3px 1px #d0d0d0;
+}
+.list-pages .page-num-selected {
+	border: none;
+	color: #000;
+	font-size: 20px;
+}
+.list-pages .page-num-selected:hover {
+	box-shadow: none;
+}
+
+
+.game_text {
+    background-color: #FFFFED;
+    margin-right: 300px; /* Пример значения для предотвращения наложения */
+}
+
+
+
+
+
+/* Общие стили страницы игры */
+.game-page {
+    width: 100%; /* Устанавливаем ширину в 100% */
+    margin: 40px 0; /* Убираем отступы по бокам */
+    display: flex;
+    gap: 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+.game-main {
+    flex: 3;
+}
+
+.game-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.game-title-container {
+    max-width: 70%;
+}
+
+.game-title-container h1 {
+    font-size: 2.5em;
+    margin: 0;
+    color: #222;
+}
+
+.game-rating-info p {
+    font-size: 1.2em;
+    margin: 5px 0;
+}
+
+.game-rating-info .rating, .game-rating-info .saled-count, .game-rating-info .likes, .game-rating-info .dislikes, .game-rating-info .price span {
+    font-weight: bold;
+    color: #e91e63;
+}
+
+.game-cover img {
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.game-description h2 {
+    font-size: 2em;
+    color: #222;
+    margin-bottom: 15px;
+}
+
+.game-text {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.game-comments {
+    margin-top: 20px;
+}
+
+.game-comments h3 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+}
+
+.comment-form {
+    margin-bottom: 30px;
+}
+
+.submit-button {
+    padding: 12px 20px;
+    background-color: #e91e63;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #d81b60;
+}
+
+.comments-list {
+    margin-top: 20px;
+}
+
+.comment {
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.comment-meta {
+    font-size: 0.9em;
+    color: #777;
+}
+
+.game-seller {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 20px;
+    align-self: flex-start;
+}
+
+.game-seller h3 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+}
+
+.seller-name {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.seller-rating span {
+    font-weight: bold;
+    color: #e91e63;
+}
+
+
+.comment-form {
+    margin-bottom: 30px;
+    max-width: 100%; /* Устанавливаем максимальную ширину формы */
+}
+
+.comment-form textarea {
+    width: 100%; /* Поле ввода текста будет занимать всю ширину родительского элемента */
+    max-width: 100%; /* Устанавливаем максимальную ширину */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1em;
+    box-sizing: border-box; /* Включает отступы и границы в ширину элемента */
+}
+
+.comment-form input[type="text"] {
+    width: 100%; /* Поле ввода текста будет занимать всю ширину родительского элемента */
+    max-width: 100%; /* Устанавливаем максимальную ширину */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1em;
+    box-sizing: border-box; /* Включает отступы и границы в ширину элемента */
+}
+
+.submit-button {
+    width: auto; /* Ширина кнопки автоматически подстраивается под её содержимое */
+    padding: 12px 20px;
+    background-color: #e91e63;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s;
+    margin-top: 10px; /* Добавляем отступ сверху для кнопки */
+}
+
+.submit-button:hover {
+    background-color: #d81b60;
+}

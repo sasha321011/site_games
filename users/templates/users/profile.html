@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ul>
+    <h1>Профиль</h1>
+
+    <form method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+        {% if user.photo %}
+        <p><img  src="{{ user.photo.url }}"></p>
+        {% else %}
+        <p><img  src="{{ default_image }}"></p>
+        {% endif %}
+        {{ form.as_p }}
+
+        <p>
+            <button type="submit">Сохранить</button>
+        </p>
+    </form>
+
+    <hr>
+    <p><a href="{% url 'users:password_change' %}">Сменить пароль</a></p>
+</ul>
+<hr>
+
+
+{% endblock %}
+
+

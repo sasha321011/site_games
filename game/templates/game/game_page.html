@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="game-page">
+    <div class="game-main">
+        <div class="game-header">
+            <div class="game-title-container">
+                <h1>{{ post_content.title }}</h1>
+                <div class="game-rating-info">
+                    <p>Рейтинг: <span class="rating"> {{ rat }}</span> | Продано: <span class="saled-count">{{ post_content.saled_count }}</span>
+                        | Like: <span class="likes">{{ t_likes }}</span> | Dislike: <span class="dislikes">{{ t_dislikes }}</span>
+                    </p>
+                    <p class="price">Цена: <span>{{ post_content.price }}</span></p>
+                </div>
+            </div>
+            <div class="game-cover">
+                {% if post_content.cover_image %}
+                <img src="{{ post_content.cover_image.url }}" alt="{{ post_content.title }} Cover">
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="game-description">
+            <h2>Описание товара:</h2>
+            <div class="game-text">
+                {{ post_content.content }}
+            </div>
+        </div>
+        {% if user.is_authenticated %}
+        <div class="like-dislike-buttons">
+
+            <form method="post" class="like-form">
+                {% csrf_token %}
+                <button type="submit" name="like" class="like-button">👍</button>
+            </form>
+            <form method="post" class="dislike-form">
+                {% csrf_token %}
+                <button type="submit" name="dislike" class="dislike-button">👎</button>
+            </form>
+        </div>
+
+        <div class="game-comments">
+            <h3>Комментарии:</h3>
+            <form method="post" class="comment-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="submit-button">Отправить</button>
+            </form>
+            <div class="comments-list">
+                {% endif %}
+                {% for com in comments %}
+                <div class="comment">
+                    <p>{{ com.text_comment }}</p>
+                    <p class="comment-meta">
+                        От: <strong>{{ com.author }}</strong> | В
+                        <time datetime="{{ com.created_at }}">{{ com.created_at }}</time>
+
+
+                        {% if user_vote and user_vote.vote == 1 %}
+                        👍 Лайк
+                        {% else %}
+                        👎Дизлайк
+                        {% endif %}
+
+                    </p>
+                    {% if user == com.author %}
+                    <a href="{% url 'edit_comment' com.id %}" class="edit-comment-button">Редактировать</a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <aside class="game-seller">
+        <h3>Продавец:</h3>
+        <p class="seller-name">{{ user_data.username }}</p>
+        <p class="seller-rating">Контактный email: <span>{{ user_data.email }}</span></p>
+
+        <p class="seller-rating"><a href="{% url 'edit_game' post_content.slug %}">Редактировать пост </a></p>
+    </aside>
+</div>
+{% endblock %}
