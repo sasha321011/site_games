@@ -7,11 +7,11 @@
             <div class="game-title-container">
                 <h1>{{ post_content.title }}</h1>
 
-                <h2><a href="{% url 'basket_add' post_content.title %}">Добавить в корзину</a></h2>
+                <h2><a href="{% url 'basket_add' post_content.slug %}">Добавить в корзину</a></h2>
 
                 {% for i in basket_count%}
-                {% if  post_content.title == i.product.title %}
-                <h2><a href="{% url 'basket_add' post_content.title %}"> + </a>{{i.quantity}} <a href="{% url 'basket_delete' post_content.title %}">   - </a></h2>
+                {% if  post_content.slug == i.product.slug %}
+                <h2><a href="{% url 'basket_add' post_content.slug %}"> + </a>{{i.quantity}} <a href="{% url 'basket_delete' post_content.slug %}">   - </a></h2>
                 {% endif %}
                 {% endfor %}
 

@@ -27,6 +27,24 @@ class Index(ListView):
 
         return games
 
+class ShowTagPostList(ListView):
+
+    template_name = 'game/index.html'
+    context_object_name = 'games'
+    paginate_by = 9
+
+    def get_queryset(self):
+        tag_slug = self.kwargs.get('tag_slug')
+        cache_key = f'tag_postlist_{tag_slug}'
+        posts = cache.get(cache_key)
+        if not posts:
+            tag = get_object_or_404(TagPost, slug=tag_slug)
+            posts = tag.tags.filter(is_published=Game.Status.PUBLISHED).select_related('author')
+            cache.set(cache_key, posts, 60 * 15)
+        games = posts
+        return games
+
+
 
 class YourPosts(ListView):
     model = Game
@@ -48,13 +66,13 @@ class YourPosts(ListView):
 
 
 class Search(ListView):
-    paginate_by = 9
+
     model = Game
     template_name = 'game/index.html'
     context_object_name = 'games'
 
     def get_queryset(self):
-        query = self.request.GET.get('q')
+        query = self.request.GET.get('q', '')
         page_number = self.request.GET.get('page', 1)
         cache_key = f'search_results_{query}_page_{page_number}'
         games = cache.get(cache_key)
@@ -73,6 +91,48 @@ class Search(ListView):
         context['q'] = self.request.GET.get('q')
         return context
 
+class GameListFilters(ListView):
+
+    template_name = 'game/index.html'
+    context_object_name = 'games'
+    paginate_by = 9
+
+    def get_queryset(self):
+        order = self.request.GET.get('order')
+        cache_key = f'filter_{order}'
+        posts = cache.get(cache_key)
+        print(order)
+        if not posts:
+            if order == 'newest':
+                posts = Game.objects.all().order_by('-time_create').select_related(
+                    'author')  # сортировка по дате добавления
+            elif order == 'price':
+                posts = Game.objects.all().order_by('price').select_related('author')  # сортировка по дате добавления
+            else:
+                posts = Game.objects.all().select_related('author')  # если фильтр не выбран, показываем все игры
+            cache.set(cache_key, posts, 60 * 15)
+
+        games = posts
+        return games
+
+'''
+def game_list(request):
+    order = request.GET.get('order')
+
+    if order == 'newest':
+        games = Game.objects.all().order_by('-time_create').select_related('author')  # сортировка по дате добавления
+    elif order == 'price':
+        games = Game.objects.all().order_by('price').select_related('author')  # сортировка по дате добавления
+    else:
+        games = Game.objects.all().select_related('author')  # если фильтр не выбран, показываем все игры
+
+    context = {
+        'games': games,
+
+    }
+
+    return render(request, 'game/index.html', context)
+'''
 
 def post(request, post_slug):
     game = Game.objects.select_related('author').filter(slug=post_slug).first()
@@ -172,20 +232,7 @@ def tags(request):
     return render(request, 'game/tags.html', {'tags': tags_list})
 
 
-def show_tag_postlist(request, tag_slug):
-    cache_key = f'tag_postlist_{tag_slug}'
-    posts = cache.get(cache_key)
 
-    if not posts:
-        tag = get_object_or_404(TagPost, slug=tag_slug)
-        posts = tag.tags.filter(is_published=Game.Status.PUBLISHED).select_related('author')
-        cache.set(cache_key, posts, 60 * 15)
-
-    context = {
-        'games': posts,
-    }
-
-    return render(request, 'game/index.html', context)
 
 
 @cache_page(60 * 15)
@@ -269,22 +316,6 @@ def contact(request):
     return render(request, 'game/contact.html')
 
 
-def game_list(request):
-    order = request.GET.get('order')
-
-    if order == 'newest':
-        games = Game.objects.all().order_by('-time_create').select_related('author')  # сортировка по дате добавления
-    elif order == 'price':
-        games = Game.objects.all().order_by('price').select_related('author')  # сортировка по дате добавления
-    else:
-        games = Game.objects.all().select_related('author')  # если фильтр не выбран, показываем все игры
-
-    context = {
-        'games': games,
-
-    }
-
-    return render(request, 'game/index.html', context)
 
 
 def basket_add(request,post_slug):

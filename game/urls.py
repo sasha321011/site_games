@@ -7,7 +7,7 @@ urlpatterns = [
     path('contacts', views.contact, name='contacts'),
     path('game/<slug:post_slug>', views.post, name='post'),
     path('tag', views.tags, name='tags'),
-    path('tag/<slug:tag_slug>', views.show_tag_postlist, name='tag'),
+    path('tag/<slug:tag_slug>', views.ShowTagPostList.as_view(), name='tag'),
     path('add_page/', views.add_page, name='add_page'),
 
     path('basket-add/<slug:post_slug>',views.basket_add,name='basket_add'),
@@ -18,6 +18,6 @@ urlpatterns = [
     path('comment/edit/<int:comment_id>/', views.edit_comment, name='edit_comment'),
 
     path('search/', views.Search.as_view(), name='search_results'),
-    path('filter/',views.game_list,name='game_filter')
+    path('filter/',views.GameListFilters.as_view(),name='game_filter')
 
 ]
