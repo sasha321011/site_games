@@ -9,13 +9,14 @@ from celery import Celery
 
 from django.conf import settings
 
+from sitegames.settings import CELERY_BROKER_URL
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sitegames.settings')
 
 app = Celery('sitegames')
 app.conf.broker_connection_retry_on_startup = True
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.conf.broker_url = settings.CELERY_BROKER_URL
-
 
 app.conf.beat_schedule_filename = os.path.join(settings.BASE_DIR, 'tmp', 'celerybeat-schedule')
 

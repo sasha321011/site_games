@@ -1,6 +1,6 @@
 from django.contrib import admin, messages
 
-from .models import Game, TagPost
+from .models import Game, TagPost, Basket
 
 
 @admin.register(Game)
@@ -34,3 +34,7 @@ class GameAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     list_display = ('id', 'tag')
     list_display_links = ('id', 'tag')
+
+@admin.register(Basket)
+class BasketAdmin(admin.ModelAdmin):
+    list_display = ('user','product','quantity','all_price',)

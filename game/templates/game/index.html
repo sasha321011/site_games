@@ -5,7 +5,9 @@
 <ul>
     Фильтры:
 
-    <a class="buy-button" href="{% url 'game_filter' %}?order=newest">Недавно добавленные</a>
+    <a class="buy-button" href="{% url 'game_filter' %}?order=newest">Недавно добавленные</a> |
+    <a class="buy-button" href="{% url 'game_filter' %}?order=price">Самые дешевые</a>
+
 
     <div class="game-list">
         {% for game in games %}

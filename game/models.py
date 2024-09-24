@@ -20,13 +20,13 @@ class Game(models.Model):
         verbose_name_plural = 'Игры'
 
     title = models.CharField(max_length=50, verbose_name='Заголовок')
-    price = models.IntegerField(verbose_name='Цена')
+    price = models.PositiveIntegerField(verbose_name='Цена')
     content = models.CharField(blank=True, max_length=500)
     slug = models.SlugField(blank=True)
     image = models.FileField(blank=True, upload_to='photos/%Y/%m/%d/', default=None, null=True, verbose_name='Фото')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
-    saled_count = models.IntegerField(null=True, default=0)
+    saled_count = models.PositiveIntegerField(null=True, default=0)
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
                                        default=Status.DRAFT, verbose_name='Статус')
     tags = models.ManyToManyField('TagPost', blank=True, related_name='tags', verbose_name='Теги')
@@ -91,8 +91,15 @@ class UserVote(models.Model):
     ]
 
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    game = models.ForeignKey('Game', on_delete=models.CASCADE, related_name='votes')
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name='votes')
     vote = models.SmallIntegerField(choices=VOTE_CHOICES, null=True)
 
     class Meta:
         unique_together = ('user', 'game')  # Ограничение: один пользователь - один голос за игру
+
+
+class Basket(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    product = models.ForeignKey(Game,on_delete=models.CASCADE,related_name='added_game')
+    quantity = models.PositiveIntegerField()
+    all_price = models.PositiveIntegerField()

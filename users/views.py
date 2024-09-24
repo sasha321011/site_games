@@ -4,6 +4,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
+
+from game.models import Basket
 from users.forms import LoginUserForm, RegisterUserForm, ProfileUserForm, UserPasswordChangeForm
 
 
@@ -36,6 +38,7 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
 
         context['default_image'] = settings.DEFAULT_USER_IMAGE
+        context['games'] = Basket.objects.filter(user=self.request.user).select_related('product')
 
         return context
 

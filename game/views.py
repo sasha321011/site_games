@@ -2,12 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db.models import Q, Count
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.cache import cache_page
 from django.views.generic import ListView
 from game.forms import AddPostForm, CommentForm
-from game.models import Game, TagPost, UserVote, Comments
+from game.models import Game, TagPost, UserVote, Comments, Basket
 
 
 class Index(ListView):
@@ -76,7 +76,7 @@ class Search(ListView):
 
 def post(request, post_slug):
     game = Game.objects.select_related('author').filter(slug=post_slug).first()
-
+    baskets = Basket.objects.filter(user=request.user,).select_related('product')
     user = request.user
 
     # Кэширование данных
@@ -156,7 +156,8 @@ def post(request, post_slug):
         't_likes': total_likes,
         't_dislikes': total_dislikes,
         'rat': rating,
-        'user_data': user_data
+        'user_data': user_data,
+        'basket_count': baskets
     })
 
 
@@ -273,6 +274,8 @@ def game_list(request):
 
     if order == 'newest':
         games = Game.objects.all().order_by('-time_create').select_related('author')  # сортировка по дате добавления
+    elif order == 'price':
+        games = Game.objects.all().order_by('price').select_related('author')  # сортировка по дате добавления
     else:
         games = Game.objects.all().select_related('author')  # если фильтр не выбран, показываем все игры
 
@@ -282,3 +285,30 @@ def game_list(request):
     }
 
     return render(request, 'game/index.html', context)
+
+
+def basket_add(request,post_slug):
+    game = Game.objects.get(slug=post_slug)
+    baskets = Basket.objects.filter(user=request.user,product=game)
+
+    if not baskets.exists():
+        Basket.objects.create(user=request.user,product=game,quantity=1,all_price=game.price)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    else:
+        baskets = baskets.first()
+        baskets.quantity += 1
+        baskets.all_price += game.price
+        baskets.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def basket_delete(request,post_slug):
+    game = Game.objects.get(slug=post_slug)
+    baskets = Basket.objects.filter(user=request.user,product=game)
+    baskets = baskets.first()
+    if baskets.quantity - 1 < 0:
+        pass
+    else:
+        baskets.quantity -= 1
+        baskets.all_price -= game.price
+        baskets.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

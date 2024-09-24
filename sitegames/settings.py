@@ -14,8 +14,9 @@ from pathlib import Path
 
 from celery.schedules import crontab
 
+
 try:
-    from local_settings import *
+    from sitegames.local_settings import *
 except ImportError:
     pass
 
@@ -180,7 +181,7 @@ CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
 CELERY_BEAT_SCHEDULE = {
     'send-birthday-greetings-every-day': {
         'task': 'users.tasks.send_birthday_greetings',
-        'schedule': crontab(hour=24, minute=00),  # Меняйте время при необходимости
+        'schedule': crontab(hour=12, minute=00),  # Меняйте время при необходимости
     },
 }
 

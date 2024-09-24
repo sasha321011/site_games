@@ -6,6 +6,17 @@
         <div class="game-header">
             <div class="game-title-container">
                 <h1>{{ post_content.title }}</h1>
+
+                <h2><a href="{% url 'basket_add' post_content.title %}">Добавить в корзину</a></h2>
+
+                {% for i in basket_count%}
+                {% if  post_content.title == i.product.title %}
+                <h2><a href="{% url 'basket_add' post_content.title %}"> + </a>{{i.quantity}} <a href="{% url 'basket_delete' post_content.title %}">   - </a></h2>
+                {% endif %}
+                {% endfor %}
+
+
+
                 <div class="game-rating-info">
                     <p>Рейтинг: <span class="rating"> {{ rat }}</span> | Продано: <span class="saled-count">{{ post_content.saled_count }}</span>
                         | Like: <span class="likes">{{ t_likes }}</span> | Dislike: <span class="dislikes">{{ t_dislikes }}</span>
